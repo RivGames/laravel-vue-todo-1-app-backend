@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\v1\Account;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Account\LoginRequest;
 use App\Http\Requests\Account\RegisterRequest;
 use App\Services\AccountService;
 
@@ -17,9 +18,9 @@ class AccountController extends Controller
         return $this->service->create($request->getDto());
     }
 
-    public function login()
+    public function login(LoginRequest $request)
     {
-
+        return $this->service->authenticate($request->getDto());
     }
 
     public function logout()
