@@ -6,7 +6,7 @@ namespace App\Services;
 use App\Dto\Account\AuthenticateDto;
 use App\Dto\Account\CreateDto;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -32,5 +32,10 @@ class AccountService
             return response()->json(['message' => 'Invalid Email or Password']);
         }
         return Auth::loginUsingId(auth()->id())->createToken('main')->plainTextToken;
+    }
+
+    public function destroy(Request $request): bool
+    {
+        return $request->user()->currentAccessToken()->delete();
     }
 }

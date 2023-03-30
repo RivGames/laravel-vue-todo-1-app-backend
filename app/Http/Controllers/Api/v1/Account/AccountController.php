@@ -7,6 +7,8 @@ use App\Http\Requests\Account\LoginRequest;
 use App\Http\Requests\Account\RegisterRequest;
 use App\Services\AccountService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
@@ -24,8 +26,9 @@ class AccountController extends Controller
         return response()->json(['token' => $this->service->authenticate($request->getDto())]);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-
+        $this->service->destroy($request);
+        return response(['message' => 'Successfully logged out']);
     }
 }
