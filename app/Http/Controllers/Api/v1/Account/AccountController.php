@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Account\LoginRequest;
 use App\Http\Requests\Account\RegisterRequest;
 use App\Services\AccountService;
+use Illuminate\Http\JsonResponse;
 
 class AccountController extends Controller
 {
@@ -13,14 +14,14 @@ class AccountController extends Controller
     {
     }
 
-    public function register(RegisterRequest $request): string
+    public function register(RegisterRequest $request): JsonResponse
     {
-        return $this->service->create($request->getDto());
+        return response()->json(['token' => $this->service->create($request->getDto())]);
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
-        return $this->service->authenticate($request->getDto());
+        return response()->json(['token' => $this->service->authenticate($request->getDto())]);
     }
 
     public function logout()

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Hash;
 
 class AccountService
 {
-    public function create(CreateDto $dto): JsonResponse
+    public function create(CreateDto $dto): string
     {
         $user = new User();
 
@@ -21,16 +21,16 @@ class AccountService
         $user->email = $dto->getEmail();
         $user->password = Hash::make($dto->getPassword());
         $user->save();
-
-        return response()->json(['token' => $user->createToken('main')->plainTextToken]);
+        return $user->createToken('main')->plainTextToken;
     }
 
-    public function authenticate(AuthenticateDto $dto): JsonResponse
+    public function authenticate(AuthenticateDto $dto)
     {
         $credentials = ['email' => $dto->getEmail(), 'password' => $dto->getPassword()];
         if (!Auth::attempt($credentials)) {
+            // Need Exception
             return response()->json(['message' => 'Invalid Email or Password']);
         }
-        return response()->json(['token' => Auth::loginUsingId(auth()->id())->createToken('main')->plainTextToken]);
+        return Auth::loginUsingId(auth()->id())->createToken('main')->plainTextToken;
     }
 }
