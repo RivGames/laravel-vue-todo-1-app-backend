@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Static_;
 
 /**
  * App\Models\Todo
@@ -24,9 +25,13 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Todo whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Todo whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Todo whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Todo paginate($value)
  * @mixin \Eloquent
  */
 class Todo extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['title', 'body'];
+
 }
