@@ -22,7 +22,7 @@ class TodoTest extends TestCase
 
     public function testCanSeeIndex(): void
     {
-        $response = $this->actingAs($this->user)->getJson('api/todo');
+        $response = $this->actingAs($this->user)->getJson('api/todos');
 
         $response->assertJsonStructure(['data']);
 
@@ -31,7 +31,7 @@ class TodoTest extends TestCase
 
     public function testCanStoreTodo()
     {
-        $response = $this->actingAs($this->user)->postJson('api/todo', [
+        $response = $this->actingAs($this->user)->postJson('api/todos', [
             'title' => fake()->text(10),
             'body' => fake()->text(),
         ]);
@@ -42,14 +42,14 @@ class TodoTest extends TestCase
 
     public function testShowTodo()
     {
-        $response = $this->actingAs($this->user)->getJson('api/todo/1');
+        $response = $this->actingAs($this->user)->getJson('api/todos/1');
         $response->assertJsonStructure(['data'],$response->content());
         $response->assertOk();
     }
 
     public function testUpdateTodo()
     {
-        $response = $this->actingAs($this->user)->putJson('api/todo/update/1', [
+        $response = $this->actingAs($this->user)->putJson('api/todos/update/1', [
             'title' => 'hello','body' => 'hello'
         ]);
         $this->assertDatabaseHas('todos', [
@@ -61,7 +61,7 @@ class TodoTest extends TestCase
     public function testDestroyTodo()
     {
 
-        $response = $this->actingAs($this->user)->delete('api/todo/destroy/1');
+        $response = $this->actingAs($this->user)->delete('api/todos/destroy/1');
         $this->assertDatabaseCount('todos',9);
         $response->assertOk();
     }
