@@ -9,9 +9,8 @@ class AppTest extends TestCase
 {
     public function test_app_success_message()
     {
-        $response = $this->get('api/status');
-
-        $response->assertExactJson(['status' => 'OK', 'message' => 'Looks pretty good']);
+        $response = $this->getJson(route('app.status'));
+        $response->assertJson(['status' => 'OK', 'message' => 'Looks pretty good']);
         $response->assertStatus(200);
     }
 }
