@@ -33,7 +33,7 @@ class TodoService
 
     public function delete(Todo $todo): string
     {
-        if (!$this->isOwner(auth()->id(), $todo->id)) {
+        if ($this->isOwner(auth()->id(), $todo->id)) {
             $this->repository->delete($todo);
             return 'Task Successfully deleted!';
         }
