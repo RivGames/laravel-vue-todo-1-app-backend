@@ -7,28 +7,46 @@ use App\Http\Requests\Account\LoginRequest;
 use App\Http\Requests\Account\RegisterRequest;
 use App\Services\AccountService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+    /**
+     * @param AccountService $service
+     */
     public function __construct(private readonly AccountService $service)
     {
     }
 
+    /**
+     * @param RegisterRequest $request
+     * @return JsonResponse
+     */
     public function register(RegisterRequest $request): JsonResponse
     {
         return response()->json(['token' => $this->service->create($request->getDto())]);
     }
 
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     */
     public function login(LoginRequest $request): JsonResponse
     {
-        return response()->json(['token' => $this->service->authenticate($request->getDto())]);
+        $logic = $this->service->authenticate($request->getDto());
+        if(!$logic){
+            return response()->json(['message' => 'Invalid email or password']);
+        }
+        return response()->json(['token' => $logic]);
     }
 
-    public function logout(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
     {
         $this->service->destroy($request);
-        return response(['message' => 'Successfully logged out']);
+        return response()->json(['message' => 'Successfully logged out']);
     }
 }

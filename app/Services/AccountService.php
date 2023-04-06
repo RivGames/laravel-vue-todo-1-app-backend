@@ -20,6 +20,7 @@ class AccountService
         $user->username = $dto->getUsername();
         $user->email = $dto->getEmail();
         $user->password = Hash::make($dto->getPassword());
+        
         $user->save();
         return $user->createToken('main')->plainTextToken;
     }
@@ -29,7 +30,7 @@ class AccountService
         $credentials = ['email' => $dto->getEmail(), 'password' => $dto->getPassword()];
         if (!Auth::attempt($credentials)) {
             // Need Exception
-            return response()->json(['message' => 'Invalid Email or Password']);
+            return false;
         }
         return Auth::loginUsingId(auth()->id())->createToken('main')->plainTextToken;
     }

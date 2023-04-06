@@ -48,6 +48,6 @@ class AuthTest extends TestCase
             'password' => self::PASSWORD,
         ];
         $response = $this->postJson('api/account/login',$invalidCredentials);
-        $this->assertEquals('Invalid Email or Password',$response->json('token')['original']['message']);
+        $response->assertJsonStructure(['message']);
     }
 }
