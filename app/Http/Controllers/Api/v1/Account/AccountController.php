@@ -35,7 +35,7 @@ class AccountController extends Controller
     {
         $logic = $this->service->authenticate($request->getDto());
         if(!$logic){
-            return response()->json(['message' => 'Invalid email or password']);
+            return response()->json(['message' => 'Invalid email or password'],401);
         }
         return response()->json(['token' => $logic]);
     }
